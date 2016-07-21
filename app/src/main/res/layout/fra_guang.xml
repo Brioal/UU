@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="逛逛"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent">
+
+        <EditText
+            android:id="@+id/fra_guang_et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/home_btn_search"
+            android:drawableLeft="@mipmap/ic_search_home"
+            android:focusable="false"
+            android:hint="输入淘宝商品标题或者关键字"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorLightWhite"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/fra_guang_rg_group"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            >
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_nanshi"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="男士"/>
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_nvzhuang"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="女鞋"/>
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_nvxie"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="女鞋"/>
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_xiangbao"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="箱包"/>
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_jiadian"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="家电"/>
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_peishi"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="配饰"/>
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_muyin"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="母婴"/>
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_meizhuang"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="美妆"/>
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_jiaju"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="家居"/>
+
+            <com.brioal.uu.LineRadioButton
+                android:id="@+id/fra_guang_rb_meishi"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="美食"/>
+        </RadioGroup>
+
+        <GridView
+            android:id="@+id/fra_guang_gridview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:numColumns="3">
+
+        </GridView>
+    </LinearLayout>
+</LinearLayout>

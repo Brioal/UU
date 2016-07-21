@@ -37,93 +37,11 @@
             android:textSize="17sp"/>
     </LinearLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/fra_home_refresh"
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/fra_home_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <ScrollView
-            android:id="@+id/fra_home_scroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <com.brioal.brioallib.view.bgabanner.BGABanner
-                    android:id="@+id/fra_home_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="170dp"
-                    app:banner_pointContainerBackground="@color/colorTrans"
-                    app:banner_pointGravity="right"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp">
-
-                    <ImageView
-                        android:id="@+id/fra_home_iv_l"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/ic_launcher"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        >
-
-
-                        <ImageView
-                            android:id="@+id/fra_home_iv_rt"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@mipmap/ic_launcher"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/fra_home_iv_bl"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:scaleType="fitXY"
-                                android:src="@mipmap/ic_launcher"/>
-
-
-                            <ImageView
-                                android:id="@+id/fra_home_iv_br"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:scaleType="fitXY"
-                                android:src="@mipmap/ic_launcher"/>
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/fra_home_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="vertical"/>
-            </LinearLayout>
-
-
-        </ScrollView>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.jcodecraeer.xrecyclerview.XRecyclerView>
 </LinearLayout>

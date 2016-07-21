@@ -13,7 +13,11 @@ import com.brioal.brioallib.base.BaseActivity;
 import com.brioal.brioallib.view.bottomlayout.BottomBaseAdapter;
 import com.brioal.brioallib.view.bottomlayout.ButtomTabLayout;
 import com.brioal.uu.R;
+import com.brioal.uu.fragment.GuangFragment;
 import com.brioal.uu.fragment.HomeFragment;
+import com.brioal.uu.fragment.SearchFragment;
+import com.brioal.uu.fragment.ShopFragment;
+import com.brioal.uu.fragment.UserFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,24 +77,27 @@ public class MainActivity extends BaseActivity {
                     case 0:
                         fragment = HomeFragment.newInstance();
                         break;
-//                    case 1:
-//                        fragment = FindFragment.getInstance();
-//                        break;
-//                    case 2:
-//                        fragment = OrderFragment.getInstance();
-//                        break;
-//                    case 3:
-//                        fragment = UserFragment.getInstance();
-//                        break;
+                    case 1:
+                        fragment = SearchFragment.newInstance();
+                        break;
+                    case 2:
+                        fragment = ShopFragment.newInstance();
+                        break;
+                    case 3:
+                        fragment = GuangFragment.newInstance();
+                        break;
+                    case 4:
+                        fragment = UserFragment.newInstance();
+                        break;
                 }
                 if (fragment == null) {
                     return;
                 }
-                if (fragment.isAdded()) {
+//                if (fragment.isAdded()) {
                     mFragmentManager.beginTransaction().replace(R.id.main_rl_container, fragment).commit();
-                } else {
-                    mFragmentManager.beginTransaction().add(R.id.main_rl_container, fragment).commit();
-                }
+//                } else {
+//                    mFragmentManager.beginTransaction().add(R.id.main_rl_container, fragment).commit();
+//                }
             }
         });
         mTabLayout.setmCheckedPerscent(1.1f);

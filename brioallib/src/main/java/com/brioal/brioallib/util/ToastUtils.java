@@ -19,6 +19,11 @@ public class ToastUtils {
         }
         mToast.show();
     }
+
+    //显示字符串
+    public static void showToast(final Context context, final String message) {
+       showToast(context,message,ExtraToast.LENGTH_SHORT);
+    }
     //显示资源文件
     public static void showToast(final Context context, final int messageResId , int duration) {
         if (mToast == null) {

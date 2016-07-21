@@ -1,16 +1,16 @@
 package com.brioal.uu.fragment;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 
 import com.brioal.brioallib.base.BaseFragment;
 import com.brioal.brioallib.interfaces.OnLoadCompleteListener;
+import com.brioal.brioallib.util.ExtraToast;
+import com.brioal.brioallib.util.ToastUtils;
 import com.brioal.brioallib.view.bgabanner.BGABanner;
 import com.brioal.uu.R;
 import com.brioal.uu.adapter.HomeAdapter;
@@ -22,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,29 +44,24 @@ public class HomeFragment extends BaseFragment {
     EditText mEtSearch;
     @Bind(R.id.fra_home_btn_search)
     Button mBtnSearch;
-    @Bind(R.id.fra_home_recycler)
-    RecyclerView mRecycler;
-    @Bind(R.id.fra_home_refresh)
-    SwipeRefreshLayout mRefresh;
-    @Bind(R.id.fra_home_banner)
-    BGABanner mBanner;
-    @Bind(R.id.fra_home_iv_l)
-    ImageView mIvL;
-    @Bind(R.id.fra_home_iv_rt)
-    ImageView mIvRt;
-    @Bind(R.id.fra_home_iv_bl)
-    ImageView mIvBl;
-    @Bind(R.id.fra_home_iv_br)
-    ImageView mIvBr;
-    @Bind(R.id.fra_home_scroll)
-    ScrollView mScrollView;
+    @Bind(R.id.fra_home_recyclerview)
+    XRecyclerView mRecyclerview;
 
+    private BGABanner mBanner;
+    private ImageView mIvLeft;
+    private ImageView mIvRightTop;
+    private ImageView mIvBottomLeft;
+    private ImageView mIvBottomRight;
+
+    private final int TYPE_REFRESH_COMPLETE = 1;
+    private final int TYPE_LOAD_MORE_COMPLETE = 2;
+
+    private View mHeadView;
 
     private List<HomeAdEntity> mAds; //广告数据源
     private HomeItemBigEntity mBigEntity; //首页大图片数据源
     private List<HomeContentEntity> mList; //首页商品列表数据源
     private HomeAdapter mAdapter; //首页商品列表适配器
-    private boolean isScrolled = false;
 
 
     public static HomeFragment newInstance() {
@@ -84,13 +81,12 @@ public class HomeFragment extends BaseFragment {
         super.initView();
         mRootView = inflater.inflate(R.layout.fra_home, container, false);
         ButterKnife.bind(this, mRootView);
-        mBtnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mScrollView.scrollTo(0, 0);
-            }
-        });
-        isScrolled = false;
+        mHeadView = LayoutInflater.from(mContext).inflate(R.layout.ic_home_head, container, false);
+        mBanner = (BGABanner) mHeadView.findViewById(R.id.fra_home_banner);
+        mIvLeft = (ImageView) mHeadView.findViewById(R.id.fra_home_iv_l);
+        mIvRightTop = (ImageView) mHeadView.findViewById(R.id.fra_home_iv_rt);
+        mIvBottomLeft = (ImageView) mHeadView.findViewById(R.id.fra_home_iv_bl);
+        mIvBottomRight = (ImageView) mHeadView.findViewById(R.id.fra_home_iv_br);
     }
 
     @Override
@@ -156,69 +152,130 @@ public class HomeFragment extends BaseFragment {
             for (int i = 0; i < mAds.size(); i++) {
                 final ImageView imageView = new ImageView(mContext);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                final int finalI = i;
                 Glide.with(mContext).load(mAds.get(i).getImageUrl()).into(new SimpleTarget<GlideDrawable>() {
                     @Override
                     public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
                         imageView.setImageDrawable(glideDrawable);
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ToastUtils.showToast(mContext, mAds.get(finalI).getContentUrl(), ExtraToast.LENGTH_SHORT);
+                            }
+                        });
                     }
                 });
                 views.add(imageView);
             }
             mBanner.setViews(views);
+
         }
         //显示大的物品图片
         Glide.with(mContext).load(mBigEntity.getImageUrlLeft()).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable glideDrawable, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                mIvL.setImageDrawable(glideDrawable);
+                mIvLeft.setImageDrawable(glideDrawable);
+                mIvLeft.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastUtils.showToast(mContext, mBigEntity.getContentUrLeft());
+                    }
+                });
             }
         }); //左边图片
         Glide.with(mContext).load(mBigEntity.getImageUrlRT()).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                mIvRt.setImageDrawable(resource);
+                mIvRightTop.setImageDrawable(resource);
+                mIvRightTop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastUtils.showToast(mContext, mBigEntity.getContentRT());
+                    }
+                });
             }
         }); //右上图片
         Glide.with(mContext).load(mBigEntity.getImageRBL()).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                mIvBl.setImageDrawable(resource);
+                mIvBottomLeft.setImageDrawable(resource);
+                mIvBottomLeft.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastUtils.showToast(mContext, mBigEntity.getContentRBL());
+                    }
+                });
             }
         }); //左下图片
         Glide.with(mContext).load(mBigEntity.getImageRBR()).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                mIvBr.setImageDrawable(resource);
+                mIvBottomRight.setImageDrawable(resource);
+                mIvBottomRight.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastUtils.showToast(mContext, mBigEntity.getContentRBR());
+                    }
+                });
             }
         }); //右下图片
 
-        //商品列表
-        if (mAdapter == null) {
-            mAdapter = new HomeAdapter(mContext, mList);
-            mRecycler.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-            mRecycler.setAdapter(mAdapter);
-            mRecycler.setNestedScrollingEnabled(false);
-        } else {
-            mAdapter.notifyDataSetChanged();
+//        //商品列表
+//        if (mAdapter == null) {
+        mAdapter = new HomeAdapter(mContext, mList);
+        mRecyclerview.setLayoutManager(new GridLayoutManager(mContext, 2));
+        mRecyclerview.setAdapter(mAdapter);
+        if (!headAdded) {
+            mRecyclerview.addHeaderView(mHeadView);
+            headAdded = true;
         }
+        mRecyclerview.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        mRecyclerview.setLoadingMoreProgressStyle(ProgressStyle.BallClipRotate);
+        mRecyclerview.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadDataNet();
+                    }
+                }).start();
+            }
 
+            @Override
+            public void onLoadMore() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadMore();
+                    }
+                }).start();
+            }
+        });
+//        } else {
+//            mAdapter.notifyDataSetChanged();
+//        }
 
+        mRecyclerview.refreshComplete();
+    }
+
+    private boolean headAdded = false;
+
+    public void loadMore() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-
-                    mScrollView.scrollTo(0, 0);
-
-
+                mHandler.sendEmptyMessage(TYPE_UPDATE_VIEW);
             }
-        }, 1000);
-
+        }, 3000);
     }
 
     @Override
     public void updateView() {
         super.updateView();
+        mAdapter.notifyDataSetChanged();
+        mRecyclerview.loadMoreComplete();
     }
 
 
@@ -227,4 +284,5 @@ public class HomeFragment extends BaseFragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
 }

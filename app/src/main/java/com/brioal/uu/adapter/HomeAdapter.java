@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.brioal.brioallib.util.ToastUtils;
 import com.brioal.uu.R;
 import com.brioal.uu.entity.HomeContentEntity;
 import com.bumptech.glide.Glide;
@@ -42,7 +43,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ContentViewHol
 
     @Override
     public void onBindViewHolder(final ContentViewHolder holder, int position) {
-        HomeContentEntity entity = mList.get(position);
+        final HomeContentEntity entity = mList.get(position);
         Glide.with(mContext).load(entity.getImageUrl()).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
@@ -57,6 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ContentViewHol
             @Override
             public void onClick(View v) {
                 // TODO: 2016/7/18 跳转商品详情
+                ToastUtils.showToast(mContext,entity.getContentUrl());
             }
         });
     }
